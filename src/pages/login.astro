@@ -7,20 +7,26 @@ import Nav from '../components/Nav.astro';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connexion - Archives Coloniales</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <Nav />
   <h1>Connexion / Inscription</h1>
   <p>Utilisez le bouton ci-dessous pour vous connecter ou créer un compte gratuitement.</p>
-  <div id="login-widget"></div>
+  <div data-netlify-identity-button></div>
 </body>
 </html>
 
 <script>
-  import netlifyIdentity from 'netlify-identity-widget';
-  
-  netlifyIdentity.init({
-    container: '#login-widget',
-    locale: 'fr'
-  });
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', function(user) {
+      if (!user) {
+        document.querySelector('[data-netlify-identity-button]').innerHTML = '';
+        window.netlifyIdentity.open('login');
+      }
+    });
+    window.netlifyIdentity.init({
+      locale: 'fr'
+    });
+  }
 </script>
