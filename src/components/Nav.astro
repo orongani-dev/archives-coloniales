@@ -4,13 +4,12 @@
   <span id="netlify-identity-nav"></span>
 </nav>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on('init', function(user) {
       var container = document.getElementById('netlify-identity-nav');
       if (user) {
-        container.innerHTML = '<span>Bonjour, ' + user.user_metadata.full_name + ' </span><a href="#" onclick="window.netlifyIdentity.logout(); return false;">(Déconnexion)</a>';
+        container.innerHTML = '<span>Bonjour, ' + (user.user_metadata && user.user_metadata.full_name ? user.user_metadata.full_name : 'Utilisateur') + ' </span><a href="#" onclick="event.preventDefault(); window.netlifyIdentity.logout();">(Déconnexion)</a>';
       } else {
         container.innerHTML = '<a href="/login">Connexion</a>';
       }
@@ -24,8 +23,6 @@
       window.location.href = '/';
     });
     
-    window.netlifyIdentity.init({
-      locale: 'fr'
-    });
+    window.netlifyIdentity.init();
   }
 </script>
