@@ -1,0 +1,34 @@
+---
+import Nav from '../components/Nav.astro';
+
+// Vérification simple : on utilisera Netlify Identity côté client
+// pour vérifier si l'utilisateur est connecté
+---
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archives disponibles</title>
+</head>
+<body>
+  <Nav />
+  <h1>Archives</h1>
+  <p>Liste des documents disponibles (chargée depuis NocoDB)...</p>
+  <p><a href="/soumettre">Soumettre une correction</a></p>
+  
+  <div id="archive-list">
+    <!-- Les archives s'afficheront ici -->
+    <p>Chargement en cours...</p>
+  </div>
+</body>
+</html>
+
+<script>
+  import netlifyIdentity from 'netlify-identity-widget';
+  
+  const user = netlifyIdentity.currentUser();
+  if (!user) {
+    window.location.href = '/login';
+  }
+</script>

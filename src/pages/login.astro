@@ -1,0 +1,26 @@
+---
+import Nav from '../components/Nav.astro';
+---
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion - Archives Coloniales</title>
+</head>
+<body>
+  <Nav />
+  <h1>Connexion / Inscription</h1>
+  <p>Utilisez le bouton ci-dessous pour vous connecter ou créer un compte gratuitement.</p>
+  <div id="login-widget"></div>
+</body>
+</html>
+
+<script>
+  import netlifyIdentity from 'netlify-identity-widget';
+  
+  netlifyIdentity.init({
+    container: '#login-widget',
+    locale: 'fr'
+  });
+</script>
