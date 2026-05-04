@@ -1,29 +1,7 @@
 <nav style="background:#f0f0f0; padding:10px; margin-bottom:20px;">
   <a href="/" style="margin-right:15px;">Accueil</a>
   <a href="/archives" style="margin-right:15px;">Archives</a>
-  <span id="netlify-identity-nav"><a href="/login">Connexion</a></span>
+  <span data-netlify-identity-button></span>
 </nav>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on('init', function(user) {
-      var container = document.getElementById('netlify-identity-nav');
-      if (user) {
-        container.innerHTML = '<span>Bonjour, ' + (user.user_metadata && user.user_metadata.full_name ? user.user_metadata.full_name : 'Utilisateur') + ' </span><a href="#" onclick="event.preventDefault(); window.netlifyIdentity.logout();">(Déconnexion)</a>';
-      } else {
-        container.innerHTML = '<a href="/login">Connexion</a>';
-      }
-    });
-    
-    window.netlifyIdentity.on('login', function() {
-      window.location.href = '/archives';
-    });
-    
-    window.netlifyIdentity.on('logout', function() {
-      window.location.href = '/';
-    });
-    
-    window.netlifyIdentity.init();
-  }
-</script>
+<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>

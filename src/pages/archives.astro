@@ -7,7 +7,6 @@ import Nav from '../components/Nav.astro';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Archives disponibles</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     .archive-card {
       border: 1px solid #ccc;
@@ -25,46 +24,48 @@ import Nav from '../components/Nav.astro';
   <h1>Archives disponibles</h1>
   <p><a href="/soumettre">Soumettre une correction</a></p>
   <div id="archive-list"><p>Chargement en cours...</p></div>
-
-  <script>
-    window.netlifyIdentity.on('init', function(user) {
-      if (!user) {
-        window.location.href = '/login';
-      } else {
-        chargerArchives();
-      }
-    });
-    window.netlifyIdentity.init();
-
-    async function chargerArchives() {
-      var container = document.getElementById('archive-list');
-      container.innerHTML = '<p>Chargement des archives...</p>';
-      try {
-        var response = await fetch('/.netlify/functions/getArchives');
-        if (!response.ok) {
-          var errorData = await response.json();
-          throw new Error(errorData.error || 'Erreur');
-        }
-        var data = await response.json();
-        var archives = data.list || data;
-        if (!archives || archives.length === 0) {
-          container.innerHTML = '<p>Aucune archive trouvée.</p>';
-          return;
-        }
-        var html = '';
-        archives.forEach(function(a) {
-          html += '<div class="archive-card">';
-          html += '<h3>' + (a.Titre || 'Sans titre') + '</h3>';
-          html += '<p class="meta">Date : ' + (a.Date || 'Non daté') + ' | Catégorie : ' + (a.Categorie || 'Autre') + '</p>';
-          html += '<p>' + (a.Contenu || '').substring(0, 200) + '...</p>';
-          html += '<p><strong>Mots-clés :</strong> ' + (a.MotsCles || 'Aucun') + '</p>';
-          html += '</div>';
-        });
-        container.innerHTML = html;
-      } catch (error) {
-        container.innerHTML = '<p style="color:red;">Erreur : ' + error.message + '</p>';
-      }
-    }
-  </script>
 </body>
 </html>
+
+<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  netlifyIdentity.on('init', function(user) {
+    if (!user) {
+      window.location.href = '/login';
+    } else {
+      chargerArchives();
+    }
+  });
+  
+  netlifyIdentity.init();
+
+  async function chargerArchives() {
+    var container = document.getElementById('archive-list');
+    container.innerHTML = '<p>Chargement des archives...</p>';
+    try {
+      var response = await fetch('/.netlify/functions/getArchives');
+      if (!response.ok) {
+        var errorData = await response.json();
+        throw new Error(errorData.error || 'Erreur');
+      }
+      var data = await response.json();
+      var archives = data.list || data;
+      if (!archives || archives.length === 0) {
+        container.innerHTML = '<p>Aucune archive trouvée.</p>';
+        return;
+      }
+      var html = '';
+      archives.forEach(function(a) {
+        html += '<div class="archive-card">';
+        html += '<h3>' + (a.Titre || 'Sans titre') + '</h3>';
+        html += '<p class="meta">Date : ' + (a.Date || 'Non daté') + ' | Catégorie : ' + (a.Categorie || 'Autre') + '</p>';
+        html += '<p>' + (a.Contenu || '').substring(0, 200) + '...</p>';
+        html += '<p><strong>Mots-clés :</strong> ' + (a.MotsCles || 'Aucun') + '</p>';
+        html += '</div>';
+      });
+      container.innerHTML = html;
+    } catch (error) {
+      container.innerHTML = '<p style="color:red;">Erreur : ' + error.message + '</p>';
+    }
+  }
+</script>

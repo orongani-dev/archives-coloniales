@@ -7,50 +7,42 @@ import Nav from '../components/Nav.astro';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Soumettre une correction</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <Nav />
   <h1>Soumettre une correction</h1>
-  
   <form method="POST" action="/api/correction">
     <div style="margin-bottom:10px;">
       <label>ID de l'archive :</label><br>
       <input name="archive_id" type="text" required style="width:300px;" />
     </div>
-    
     <div style="margin-bottom:10px;">
       <label>Champ à corriger :</label><br>
       <input name="champ" type="text" required style="width:300px;" placeholder="ex: nom_agent, date, titre..." />
     </div>
-    
     <div style="margin-bottom:10px;">
       <label>Ancienne valeur :</label><br>
       <input name="ancien" type="text" required style="width:300px;" />
     </div>
-    
     <div style="margin-bottom:10px;">
       <label>Nouvelle valeur :</label><br>
       <input name="nouveau" type="text" required style="width:300px;" />
     </div>
-    
     <div style="margin-bottom:10px;">
       <label>Commentaire (optionnel) :</label><br>
       <textarea name="commentaire" rows="3" style="width:300px;"></textarea>
     </div>
-    
     <button type="submit" style="padding:10px 20px;">Envoyer la correction</button>
   </form>
 </body>
 </html>
 
+<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on('init', function(user) {
-      if (!user) {
-        window.location.href = '/login';
-      }
-    });
-    window.netlifyIdentity.init();
-  }
+  netlifyIdentity.on('init', function(user) {
+    if (!user) {
+      window.location.href = '/login';
+    }
+  });
+  netlifyIdentity.init();
 </script>

@@ -7,30 +7,13 @@ import Nav from '../components/Nav.astro';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connexion - Archives Coloniales</title>
-  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <Nav />
   <h1>Connexion / Inscription</h1>
   <p>Cliquez sur le bouton ci-dessous pour vous connecter ou créer un compte.</p>
-  <div id="netlify-button"></div>
+  <div data-netlify-identity-button></div>
 </body>
 </html>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', function(user) {
-        if (!user) {
-          var button = document.getElementById('netlify-button');
-          button.innerHTML = '<button style="padding: 10px 20px; font-size: 16px; cursor: pointer;" onclick="window.netlifyIdentity.open(\'login\')">Se connecter / S\'inscrire</button>';
-        } else {
-          window.location.href = '/archives';
-        }
-      });
-      window.netlifyIdentity.init();
-    } else {
-      document.getElementById('netlify-button').innerHTML = '<p style="color: red;">Erreur : Identity non chargé. Veuillez rafraîchir la page.</p>';
-    }
-  });
-</script>
+<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
