@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "astro": "^6.2.1",
-    "netlify-identity-widget": "^2.0.3"
+    "netlify-identity-widget": "^2.0.3",
+    "node-fetch": "^2.7.0"
   }
 }
