@@ -1,0 +1,61 @@
+📋 PROJET NETLIFY&CO - ÉTAT DES LIEUX
+🔗 Liens et accès
+Élément	Valeur
+Site en ligne	https://archives-coloniales-avancees.netlify.app
+Dépôt GitHub	https://github.com/orongani-dev/archives-coloniales
+Compte Netlify	Connecté avec GitHub, équipe "Archives Coloniales"
+Compte NocoDB	Créé, base "Archives_Coloniales"
+Compte Make	Créé (pour automatisations futures)
+
+📁 Fichiers du site (sur votre PC : E:\DD-ARCHIVE-AEF-GABON\astro-loc\archives-coloniales)
+text
+archives-coloniales/
+├── src/
+│   ├── components/
+│   │   └── Nav.astro
+│   ├── pages/
+│   │   ├── index.astro          (page d'accueil)
+│   │   ├── login.astro          (page connexion - lien magique)
+│   │   ├── archives.astro       (page protégée - liste archives)
+│   │   └── soumettre.astro      (formulaire correction)
+├── netlify/
+│   └── functions/
+│       ├── getArchives.js       (fonction qui interroge NocoDB)
+│       └── send-login-link.js   (fonction lien magique)
+├── package.json
+└── astro.config.mjs
+
+🗄️ Base de données NocoDB
+Élément	Valeur
+Base	Archives_Coloniales
+Table	Archives
+Colonnes	Titre, Date, Contenu, MotsCles, Categorie
+URL API V3	https://app.nocodb.com/api/v3/data/pq7am8s1nap5wn8/mv1t31dy6i4f0iu/records
+Token API	Stocké sur Netlify (variable NOCODB_TOKEN) et dans votre fichier texte
+Archives de test ajoutées :
+
+Arrêté du 25 janvier 1908 (budget)
+
+Arrêté du 27 janvier 1908 (nomination Lonvin)
+
+Circulaire ministérielle - Maladie du sommeil
+
+🔐 Netlify Identity
+Élément	Statut
+Identity activé	✅ Oui
+Registration	Open
+Email confirmation	Required
+Fournisseur Email	Activé
+⚠️ Problème actuel
+Le widget Netlify Identity ne se charge pas correctement sur le site. La fonction send-login-link retourne "Erreur réseau".
+
+Pistes à explorer à la reprise :
+
+Vérifier si la fonction est bien déployée : https://archives-coloniales-avancees.netlify.app/.netlify/functions/send-login-link
+
+Vérifier les logs Netlify dans "Functions"
+
+Tester l'API Identity directement avec un outil comme Postman
+
+Alternative : utiliser Netlify Identity Widget via le CDN officiel avec une configuration minimale
+
