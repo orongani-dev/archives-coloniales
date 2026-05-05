@@ -22,34 +22,41 @@ import Nav from '../components/Nav.astro';
 <body>
   <Nav />
   <h1>Archives disponibles</h1>
-  <p><a href="/soumettre">Soumettre une correction</a></p>
-  <div id="archive-list"><p>Chargement en cours...</p></div>
+  <div id="archive-list"><p>Vérification de l'accès...</p></div>
 </body>
 </html>
 
 <script>
-  var script = document.createElement('script');
-  script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
-  script.onload = function() {
-    netlifyIdentity.init();
-    netlifyIdentity.on('init', function(user) {
-      if (!user) {
-        window.location.href = '/login';
-      } else {
-        chargerArchives();
-      }
-    });
-  };
-  document.head.appendChild(script);
+  // Récupérer le token dans l'URL (mis par Netlify après clic sur lien magique)
+  var hash = window.location.hash;
+  if (hash.includes('access_token')) {
+    // Stocker le token
+    var params = new URLSearchParams(hash.substring(1));
+    var token = params.get('access_token');
+    localStorage.setItem('nf_token', token);
+    // Nettoyer l'URL
+    window.location.hash = '';
+  }
+
+  var token = localStorage.getItem('nf_token');
+
+  if (!token) {
+    window.location.href = '/login';
+  } else {
+    chargerArchives();
+  }
 
   async function chargerArchives() {
     var container = document.getElementById('archive-list');
     container.innerHTML = '<p>Chargement des archives...</p>';
     try {
-      var response = await fetch('/.netlify/functions/getArchives');
+      var response = await fetch('/.netlify/functions/getArchives', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
       if (!response.ok) {
-        var errorData = await response.json();
-        throw new Error(errorData.error || 'Erreur');
+        localStorage.removeItem('nf_token');
+        window.location.href = '/login';
+        return;
       }
       var data = await response.json();
       var archives = data.list || data;

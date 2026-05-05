@@ -11,19 +11,37 @@ import Nav from '../components/Nav.astro';
 <body>
   <Nav />
   <h1>Connexion / Inscription</h1>
-  <p>Cliquez sur le bouton ci-dessous pour vous connecter ou créer un compte.</p>
-  <div id="identity-btn"></div>
+  <p>Entrez votre email pour recevoir un lien de connexion.</p>
+  <form id="login-form">
+    <input type="email" id="email" placeholder="votre@email.com" required style="width:300px; padding:8px;" />
+    <button type="submit" style="padding:8px 20px;">Envoyer le lien</button>
+  </form>
+  <p id="message" style="margin-top:10px;"></p>
 </body>
 </html>
 
 <script>
-  // Charger le script Identity manuellement
-  var script = document.createElement('script');
-  script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
-  script.onload = function() {
-    netlifyIdentity.init({
-      container: '#identity-btn'
-    });
-  };
-  document.head.appendChild(script);
+  document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var email = document.getElementById('email').value;
+    var msg = document.getElementById('message');
+    msg.textContent = 'Envoi en cours...';
+
+    try {
+      var response = await fetch('/.netlify/functions/send-login-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      });
+      
+      if (response.ok) {
+        msg.innerHTML = '<span style="color:green;">✅ Lien envoyé ! Vérifiez votre boîte mail (et les spams).</span>';
+      } else {
+        var data = await response.json();
+        msg.innerHTML = '<span style="color:red;">❌ ' + (data.error || 'Erreur') + '</span>';
+      }
+    } catch (err) {
+      msg.innerHTML = '<span style="color:red;">❌ Erreur réseau.</span>';
+    }
+  });
 </script>
