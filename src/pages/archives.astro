@@ -27,17 +27,20 @@ import Nav from '../components/Nav.astro';
 </body>
 </html>
 
-<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-  netlifyIdentity.on('init', function(user) {
-    if (!user) {
-      window.location.href = '/login';
-    } else {
-      chargerArchives();
-    }
-  });
-  
-  netlifyIdentity.init();
+  var script = document.createElement('script');
+  script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+  script.onload = function() {
+    netlifyIdentity.init();
+    netlifyIdentity.on('init', function(user) {
+      if (!user) {
+        window.location.href = '/login';
+      } else {
+        chargerArchives();
+      }
+    });
+  };
+  document.head.appendChild(script);
 
   async function chargerArchives() {
     var container = document.getElementById('archive-list');

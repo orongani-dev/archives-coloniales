@@ -12,8 +12,18 @@ import Nav from '../components/Nav.astro';
   <Nav />
   <h1>Connexion / Inscription</h1>
   <p>Cliquez sur le bouton ci-dessous pour vous connecter ou créer un compte.</p>
-  <div data-netlify-identity-button></div>
+  <div id="identity-btn"></div>
 </body>
 </html>
 
-<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  // Charger le script Identity manuellement
+  var script = document.createElement('script');
+  script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+  script.onload = function() {
+    netlifyIdentity.init({
+      container: '#identity-btn'
+    });
+  };
+  document.head.appendChild(script);
+</script>
